@@ -80,7 +80,9 @@ function renderTime() {
   arc(o.x, o.y, o.r.s, sb, se, o.c.s);
 
   // Text
-  var time = pad(hours % 12, 2) + ":" + pad(minutes, 2);
+  var hmod = hours % 12;
+  var htxt = pad(hmod === 0 ? 12 : hmod, 2);
+  var time = htxt + ":" + pad(minutes, 2);
   var ampm = hours >= 12 ? 'PM' : 'AM';
   var stxt = pad(seconds, 2);
  
