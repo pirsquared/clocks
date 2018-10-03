@@ -1,4 +1,4 @@
-* {background-color: black; height: 100%}
+* {background-color: black; height: 100%, margin: 0px; padding: 0px; overflow: hidden;}
 
 div#canvasDiv {max-height: 100%; max-width: 100%;}
 canvas#canvas {display: block; margin: auto;}
