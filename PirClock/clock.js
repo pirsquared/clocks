@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', domloaded, false);
 
-function domloaded(){
+function domloaded() {
   let canvas = document.getElementById('canvas');
   let ctx = canvas.getContext('2d');
 
