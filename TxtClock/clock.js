@@ -42,8 +42,10 @@ function domloaded() {
     let w = W / 16;
     let p = Math.round(w * .72)
     let h = .8 * w;
-    let b = Math.floor((H - 5 * h) / 2);
+    let b = Math.floor((H - 6 * h) / 2);
     let mid_x = Math.floor(W / 2);
+
+    ctx.textBaseline = 'middle';
 
     // Background
     ctx.fillStyle = 'black';
