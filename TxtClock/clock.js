@@ -30,11 +30,9 @@ function domloaded() {
 
   function renderTime() {
     let now     = new Date();
-    let today   = now.toDateString();
     let hours   = now.getHours();
     let minutes = now.getMinutes();
     let seconds = now.getSeconds();
-    let digits  = [Math.floor(hours % 12 / 10), hours % 12 % 10, Math.floor(minutes / 10), minutes % 10];
 
     // stuff
     let W = canvas.width;
@@ -81,6 +79,13 @@ function domloaded() {
       let acol = dig * 3 + c ;
       let amul = Math.abs(acol - 5.5) + .5 * (g0 === g1) + 1.5;
 
+      let hour_ = hours % 12 === 0 ? 12 : hours % 12;
+      let digits  = [
+          Math.floor(hour_ / 10),
+          hour_ % 10,
+          Math.floor(minutes / 10),
+          minutes % 10
+      ];
       ctx.fillStyle = i0 === seconds ? 'Maroon' : !numbers[digits[dig]][i2] ? 'DarkSlateGray' : '#fff';
       ctx.textAlign = g0 === 0       ? 'left' : 'right';
 
