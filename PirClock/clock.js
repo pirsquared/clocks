@@ -4,12 +4,6 @@ function domloaded() {
   let canvas = document.getElementById('canvas');
   let ctx = canvas.getContext('2d');
 
-  let o = {
-    c: {s: '#200', m: '#020', h: '#002', t: 'black'},
-    r: {s: 75, m: 125, h: 175},
-    x: 250, y: 250, w: 40, cap: 'butt', blur: 15,
-  };
-
   function degToRad(degree) {
     let factor = Math.PI / 180;
     return degree * factor
@@ -36,26 +30,38 @@ function domloaded() {
   }
 
   function renderTime() {
-    let now          = new Date();
-    let today        = now.toDateString();
-    let hours        = now.getHours();
-    let minutes      = now.getMinutes();
-    let seconds      = now.getSeconds();
-    let milliseconds = now.getMilliseconds();
-    let seconds_     = seconds + milliseconds / 1000;
-    let minutes_     = minutes + seconds_ / 60;
-    let hours_       = hours + minutes_ / 60;
+    let now      = new Date();
+    let today    = now.toDateString();
+    let hours    = now.getHours();
+    let minutes  = now.getMinutes();
+    let seconds  = now.getSeconds();
+    let mseconds = now.getMilliseconds();
+    let seconds_ = seconds + mseconds / 1000;
+    let minutes_ = minutes + seconds_ / 60;
+    let hours_   = hours   + minutes_ / 60;
 
-    let shadowColor  = hex(seconds_, minutes_, hours_);
+    let shadowColor = hex(seconds_, minutes_, hours_);
+
+    // get shape
+    W = canvas.width;
+    H = canvas.height;
+    D = Math.min(W, H);
+
+    let o = {
+      c: {s: '#200', m: '#020', h: '#002', t: 'black'},
+      r: {s: .15 * D, m: .25 * D, h: .35 * D},
+      x: .5 * D, y: .5 * D, w: .08 * W, cap: 'butt', blur: .03 * W,
+    };
+
 
     // Background
     ctx.fillStyle = 'black';
-    ctx.fillRect(0, 0, 500, 500);
+    ctx.fillRect(0, 0, W, H);
 
     // common
-    ctx.lineWidth = o.w;
-    ctx.lineCap = o.cap;
-    ctx.shadowBlur = o.blur;
+    ctx.lineWidth   = o.w;
+    ctx.lineCap     = o.cap;
+    ctx.shadowBlur  = o.blur;
     ctx.shadowColor = shadowColor;
 
     // Hours
@@ -92,15 +98,15 @@ function domloaded() {
     ctx.fillStyle = o.c.t;
 
     // Time
-    ctx.font = 'bold 120px Courier';
-    ctx.fillText(time, 30, 230);
-    ctx.font = 'bold 50px Courier';
-    ctx.fillText(ampm, 400, 185);
-    ctx.fillText(stxt, 400, 230);
+    ctx.font = 'bold ' + Math.floor(.24 * D) + 'px Courier';
+    ctx.fillText(time, .06 * D, .46 * D);
+    ctx.font = 'bold ' + Math.floor(.1 * D) + 'px Courier';
+    ctx.fillText(ampm, .8 * D, .39 * D);
+    ctx.fillText(stxt, .8 * D, .46 * D);
 
     // Date
-    ctx.font = 'bold 46px Courier New';
-    ctx.fillText(today, 46, 290);
+    ctx.font = 'bold ' + Math.floor(.092 * D) + 'px Courier New';
+    ctx.fillText(today, .092 * D, .58 * D);
   }
 
   setInterval(renderTime, 40)
