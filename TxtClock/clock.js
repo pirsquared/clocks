@@ -52,11 +52,10 @@ function domloaded() {
     ctx.fillRect(0, 0, W, H);
 
     ctx.strokeStyle = hex(seconds, minutes, hours);
-    ctx.lineWidth = .4 * w;
+    ctx.lineWidth = .6 * w;
     ctx.beginPath();
-    ctx.setLineDash([.1 * w, .2 * w]);
     ctx.lineCap = 'butt';
-    ctx.moveTo(mid_x, 1.5 * h + b);
+    ctx.moveTo(mid_x, 2 * h + b);
     ctx.lineTo(mid_x, 4 * h + b);
     ctx.stroke();
 
