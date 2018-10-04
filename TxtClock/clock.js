@@ -34,13 +34,14 @@ function domloaded() {
     let hours   = now.getHours();
     let minutes = now.getMinutes();
     let seconds = now.getSeconds();
-    let digits  = [Math.floor(hours / 10), hours % 10, Math.floor(minutes / 10), minutes % 10];
+    let digits  = [Math.floor(hours % 12 / 10), hours % 12 % 10, Math.floor(minutes / 10), minutes % 10];
 
     // stuff
     let W = canvas.width;
     let H = canvas.height;
     let w = .05 * W;
-    let h = .04 * W;
+    let h = .8 * w;
+    let b = Math.floor((H - 5 * h) / 2);
     let mid_x = Math.floor(W / 2);
 
     // Background
@@ -48,11 +49,20 @@ function domloaded() {
     ctx.fillRect(0, 0, W, H);
 
     ctx.strokeStyle = hex(seconds, minutes, hours);
-    ctx.lineWidth = .01 * W;
+    ctx.lineWidth = .02 * W;
     ctx.beginPath();
-    ctx.moveTo(mid_x, h);
-    ctx.lineTo(mid_x, 4.5 * h);
+    ctx.setLineDash([.005 * W, .01 * W]);
+    ctx.lineCap = 'butt';
+    ctx.moveTo(mid_x, 1.5 * h + b);
+    ctx.lineTo(mid_x, 4 * h + b);
     ctx.stroke();
+
+    ctx.font = 'bold ' + Math.floor(.036 * W) + 'px Courier';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = hours < 12 ? 'DarkSlateGray' : '#fff';
+    ctx.fillText('AM', mid_x, h + b);
+    ctx.fillStyle = hours < 12 ? '#fff' : 'DarkSlateGray';
+    ctx.fillText('PM', mid_x, 5 * h + b);
 
     for (let i0 = 0; i0 < 60; i0++) {
       ctx.font = 'bold ' + Math.floor(.036 * W) + 'px Courier';
@@ -67,15 +77,15 @@ function domloaded() {
       let dig = g1 + g0 * 2;
       let sign = g0 === 0 ? -1 : 1;
       let acol = dig * 3 + c ;
-      let amul = Math.abs(acol - 5.5) + .5 * (g0 === g1) + 1;
+      let amul = Math.abs(acol - 5.5) + .5 * (g0 === g1) + 1.5;
 
-      ctx.fillStyle = i0 === seconds ? '#0f0' : !numbers[digits[dig]][i2] ? '#333' : '#fff';
+      ctx.fillStyle = i0 === seconds ? 'Maroon' : !numbers[digits[dig]][i2] ? 'DarkSlateGray' : '#fff';
       ctx.textAlign = g0 === 0       ? 'left' : 'right';
 
       ctx.fillText(
         pad(i0, 2),
         mid_x + amul * sign * w,
-        (r + 1) * h,
+        (r + 1) * h + b,
       );
     }
   }
