@@ -39,7 +39,8 @@ function domloaded() {
     // stuff
     let W = canvas.width;
     let H = canvas.height;
-    let w = .05 * W;
+    let w = W / 16;
+    let p = Math.round(w * .72)
     let h = .8 * w;
     let b = Math.floor((H - 5 * h) / 2);
     let mid_x = Math.floor(W / 2);
@@ -49,15 +50,15 @@ function domloaded() {
     ctx.fillRect(0, 0, W, H);
 
     ctx.strokeStyle = hex(seconds, minutes, hours);
-    ctx.lineWidth = .02 * W;
+    ctx.lineWidth = .4 * w;
     ctx.beginPath();
-    ctx.setLineDash([.005 * W, .01 * W]);
+    ctx.setLineDash([.1 * w, .2 * w]);
     ctx.lineCap = 'butt';
     ctx.moveTo(mid_x, 1.5 * h + b);
     ctx.lineTo(mid_x, 4 * h + b);
     ctx.stroke();
 
-    ctx.font = 'bold ' + Math.floor(.036 * W) + 'px Courier';
+    ctx.font = 'bold ' + p + 'px Courier';
     ctx.textAlign = 'center';
     ctx.fillStyle = hours >= 12 ? 'DarkSlateGray' : '#fff';
     ctx.fillText('AM', mid_x, h + b);
@@ -65,7 +66,7 @@ function domloaded() {
     ctx.fillText('PM', mid_x, 5 * h + b);
 
     for (let i0 = 0; i0 < 60; i0++) {
-      ctx.font = 'bold ' + Math.floor(.036 * W) + 'px Courier';
+      ctx.font = 'bold ' + p + 'px Courier';
       ctx.fillStyle = '#333';
       let g0 = Math.floor(i0 / 30);
       let i1 = i0 % 30;
