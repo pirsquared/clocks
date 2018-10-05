@@ -100,6 +100,7 @@ function domloaded() {
         (r + 1) * h + b,
       );
     }
+    ctx.shadowBlur = 0;
   }
 
   // renderTime()
