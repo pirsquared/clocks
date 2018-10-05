@@ -59,9 +59,9 @@ function domloaded() {
 
     ctx.font = 'bold ' + p + 'px Courier';
     ctx.textAlign = 'center';
-    ctx.fillStyle = hours >= 12 ? 'DarkSlateGray' : '#fff';
+    ctx.fillStyle = hours >= 12 ? '#222' : '#fff';
     ctx.fillText('AM', mid_x, h + b);
-    ctx.fillStyle = hours >= 12 ? '#fff' : 'DarkSlateGray';
+    ctx.fillStyle = hours >= 12 ? '#fff' : '#222';
     ctx.fillText('PM', mid_x, 5 * h + b);
 
     for (let i0 = 0; i0 < 60; i0++) {
@@ -86,8 +86,13 @@ function domloaded() {
           Math.floor(minutes / 10),
           minutes % 10
       ];
-      ctx.fillStyle = i0 === seconds ? 'Maroon' : !numbers[digits[dig]][i2] ? '#222' : '#fff';
-      ctx.textAlign = g0 === 0       ? 'left' : 'right';
+
+      let isnow = i0 === seconds;
+      let isnum = !!numbers[digits[dig]][i2]
+      ctx.fillStyle = !isnum ? '#222' : isnow ? '#ffa' : '#fff';
+      ctx.shadowColor = isnow ? '#fff' : '#000';
+      ctx.shadowBlur = isnow ? 30 : 0;
+      ctx.textAlign = g0 === 0 ? 'left' : 'right';
 
       ctx.fillText(
         pad(i0, 2),
