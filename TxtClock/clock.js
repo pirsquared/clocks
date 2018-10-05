@@ -86,7 +86,7 @@ function domloaded() {
           Math.floor(minutes / 10),
           minutes % 10
       ];
-      ctx.fillStyle = i0 === seconds ? 'Maroon' : !numbers[digits[dig]][i2] ? 'DarkSlateGray' : '#fff';
+      ctx.fillStyle = i0 === seconds ? 'Maroon' : !numbers[digits[dig]][i2] ? '#222' : '#fff';
       ctx.textAlign = g0 === 0       ? 'left' : 'right';
 
       ctx.fillText(
