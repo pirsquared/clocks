@@ -89,7 +89,7 @@ function domloaded() {
 
       let isnow = i0 === seconds;
       let isnum = !!numbers[digits[dig]][i2]
-      ctx.fillStyle = !isnum ? '#222' : isnow ? '#ffa' : '#fff';
+      ctx.fillStyle = isnow || !isnum ? '#222' : '#fff';
       ctx.shadowColor = isnow ? '#fff' : '#000';
       ctx.shadowBlur = isnow ? 30 : 0;
       ctx.textAlign = g0 === 0 ? 'left' : 'right';
