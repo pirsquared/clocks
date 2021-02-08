@@ -124,10 +124,26 @@ function domloaded() {
         tick(x, y, D * 0.47, i, D * .0015, D * .02, 'gray');
       }
     }
+    
+    for (i = 1; i <= 12; i++) {
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = 'white';
+        ctx.font = 'bold ' + Math.floor(.05 * D) + 'px Courier';
+
+        var theta = degToRad(i * 30 - 90);
+        var cx = D * 0.5;
+        var cy = D * 0.5;
+        var tr = D * 0.4;
+				txt_x = cx + Math.cos(theta) * tr;
+        txt_y = cy + Math.sin(theta) * tr;
+        ctx.fillText(i, txt_x, txt_y);
+    }
+    
 
     hand(x, y, hours_ * 30, D * 0.22, W * .015, '#55A');
     hand(x, y, minutes_ * 6, D * 0.3, W * .010, '#5A5');
-    hand(x, y, seconds_ * 6, D * 0.4, W * .005, '#A55');
+    hand(x, y, seconds_ * 6, D * 0.38, W * .005, '#A55');
     face(x, y, D * .03, shadowColor);
     
     handOutsidePointer(x, y, hours_ * 30, D * 0.47, '#55A')
