@@ -125,10 +125,15 @@ function domloaded() {
       }
     }
     
+    
+    ctx.shadowBlur  = .03 * W;
+    ctx.shadowColor = shadowColor;
     for (i = 1; i <= 12; i++) {
+        ctx.shadowBlur  = .03 * W;
+        ctx.shadowColor = shadowColor;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillStyle = 'white';
+        ctx.fillStyle = 'black';
         ctx.font = 'bold ' + Math.floor(.05 * D) + 'px Courier';
 
         var theta = degToRad(i * 30 - 90);
@@ -139,6 +144,7 @@ function domloaded() {
         txt_y = cy + Math.sin(theta) * tr;
         ctx.fillText(i, txt_x, txt_y);
     }
+    ctx.shadowBlur = 0;
     
 
     hand(x, y, hours_ * 30, D * 0.22, W * .015, '#55A');
