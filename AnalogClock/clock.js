@@ -10,8 +10,8 @@ function domloaded() {
   }
 
   function pad(num, size) {
-      let s = "00" + num;
-      return s.substr(s.length-size);
+    let s = "00" + num;
+    return s.substr(s.length - size);
   }
 
   function arc(cx, cy, r, b, e, fill) {
@@ -30,12 +30,28 @@ function domloaded() {
   }
 
   function tick(cx, cy, r, t, w, s, fill) {
-    ctx.lineWidth = s;
+    ctx.lineWidth = w;
     ctx.strokeStyle = fill;
+    theta = degToRad(t - 90);
+    var x = cx + Math.cos(theta) * r;
+    var y = cy + Math.sin(theta) * r;
+    var x_ = cx + Math.cos(theta) * (r - s);
+    var y_ = cy + Math.sin(theta) * (r - s);
     ctx.beginPath();
-    ctx.arc(cx, cy, r, degToRad(t - 90 - w), degToRad(t - 90 + w));
-    ctx.stroke();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x_, y_);
     ctx.closePath();
+    ctx.stroke();
+  }
+
+  function sector(cx, cy, r, a, b, fill) {
+  	ctx.fillStyle = fill;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, r, degToRad(a), degToRad(b));
+    ctx.lineTo(cx, cy);
+    ctx.closePath();
+    ctx.fill();
   }
 
   function hex(s, m, h) {
@@ -45,28 +61,37 @@ function domloaded() {
     return "#" + s_ + m_ + h_;
   }
 
-  function hand(x, y, a, l, w, c) {
+  function hand(cx, cy, a, l, w, c) {
+    r = degToRad(a - 90);
+    x_ = cx + Math.cos(r) * l;
+    y_ = cy + Math.sin(r) * l;
+    
     ctx.lineWidth = w;
     ctx.strokeStyle = c;
-    r = degToRad(a - 90);
     ctx.beginPath();
-    ctx.moveTo(x, y);
-    x_ = x + Math.cos(r) * l;
-    y_ = y + Math.sin(r) * l;
+    ctx.moveTo(cx, cy);
     ctx.lineTo(x_, y_);
     ctx.stroke();
   }
 
+  function handOutsidePointer(cx, cy, a, l, c) {
+    r = degToRad(a - 90);
+    x_ = cx + Math.cos(r) * l;
+    y_ = cy + Math.sin(r) * l;
+    
+    sector(x_, y_, 50, a - 105, a - 75, c);
+  }
+
   function renderTime() {
-    let now      = new Date();
-    let today    = now.toDateString();
-    let hours    = now.getHours();
-    let minutes  = now.getMinutes();
-    let seconds  = now.getSeconds();
+    let now = new Date();
+    let today = now.toDateString();
+    let hours = now.getHours();
+    let minutes = now.getMinutes();
+    let seconds = now.getSeconds();
     let mseconds = now.getMilliseconds();
     let seconds_ = seconds + mseconds / 1000;
     let minutes_ = minutes + seconds_ / 60;
-    let hours_   = hours   + minutes_ / 60;
+    let hours_ = hours + minutes_ / 60;
 
     let shadowColor = hex(seconds_, minutes_, hours_);
 
@@ -83,31 +108,33 @@ function domloaded() {
     ctx.fillRect(0, 0, W, H);
 
     ctx.lineWidth = .05 * W;
-    face(x, y, D * .5, shadowColor);
+    face(x, y, D * .5, '#000');
 
-    let tick_opt = {
-      s: {c: "#555", l: .025 * W, w: .1},
-      m: {c: "#F00", l: .035 * W, w: .3},
-      l: {c: "#000", l: .045 * W, w: .5}
-    };
 
     let t = {};
     r = D * .45;
-    for (i = 0; i < 360; i += 6) {
+    for (i = 0; i < 360; i++) {
       if (i % 90 == 0) {
-        t = tick_opt.l;
+        tick(x, y, D * 0.47, i, D * .005, D * .03, 'white');
       } else if (i % 30 == 0) {
-        t = tick_opt.m;
+        tick(x, y, D * 0.47, i, D * .005, D * .03, 'red');
+      } else if (i % 6 == 0) {
+        tick(x, y, D * 0.47, i, D * .003, D * .02, 'white');
       } else {
-        t = tick_opt.s;
+        tick(x, y, D * 0.47, i, D * .0015, D * .02, 'gray');
       }
-      tick(x, y, r, i, t.w, t.l, t.c);
     }
 
-    hand(x, y, hours_ * 30,  D * .25, W * .015, '#55A');
-    hand(x, y, minutes_ * 6, D * .35, W * .010, '#5A5');
-    hand(x, y, seconds_ * 6, D * .43, W * .005, '#A55');
-    face(x, y, D * .015, "#000");
+    hand(x, y, hours_ * 30, D * 0.22, W * .015, '#55A');
+    hand(x, y, minutes_ * 6, D * 0.3, W * .010, '#5A5');
+    hand(x, y, seconds_ * 6, D * 0.4, W * .005, '#A55');
+    face(x, y, D * .03, shadowColor);
+    
+    handOutsidePointer(x, y, hours_ * 30, D * 0.47, '#55A')
+    handOutsidePointer(x, y, minutes_ * 6, D * 0.47, '#5A5')
+    handOutsidePointer(x, y, seconds_ * 6, D * 0.47, '#A55')
+    
+
 
 
   }
